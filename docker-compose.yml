@@ -1,20 +1,18 @@
 version: "3.2"
 services:
-  apache:
+  flask:
     build:
-      context: './apache/'
-      #args:
-      # APACHE_VERSION: ${APACHE_VERSION}
+      context: './flask/'
     depends_on:
       - mysql
     networks:
       - frontend
       - backend
     ports:
-      - "80:80"
+      - "80:5000"
     volumes:
-      - ${PROJECT_ROOT}/:/var/www/html/
-    container_name: apache
+      - ${PROJECT_ROOT}/:/app
+    container_name: flask
   mysql:
     build:
       context: './mariaDB/'
