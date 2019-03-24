@@ -45,7 +45,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (22,'pepa','pepa@bt.com','98798347983'),(20,'juan','juan.ramirez@bt.com','394732984739'),(21,'mabel','mabel123@bt.com','039847984');
+INSERT INTO `students` VALUES (20,'juan','juan.ramirez@bt.com','394732984739'),(21,'mabel','mabel123@bt.com','039847984');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -973,4 +973,4 @@ CREATE TABLE IF NOT EXISTS `transaction_registry` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-24 16:00:36
+-- Dump completed on 2019-03-24 16:16:23
