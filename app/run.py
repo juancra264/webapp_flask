@@ -1,31 +1,68 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import pymysql
 
 app = Flask(__name__)
+app.secret_key = "flash message"
 
 
 @app.route('/')
 def Index():
     db = pymysql.connect("mysql", "dbuser", "prueba.2019", "crud")
     cursor = db.cursor()
-    sql = "SELECT * FROM students WHERE id = 14"
+    sql = "SELECT * FROM students"
     cursor.execute(sql)
     results = cursor.fetchall()
     db.close()
-    #return render_template('index.html')
-    return render_template('index3.html', results=results)
+    return render_template('index.html', students=results)
 
 
-@app.route('/insert', methods = ['POST'])
+@app.route('/insert', methods=['POST'])
 def insert():
     if request.method == "POST":
+        flash("Data Inserted Successfully")
         name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO students(name, email, phone) VALUES (%s, %s, %s)", (name, email, phone))
-        mysql.connection.commit()
-        return redirect(url_for('index'))
+        db = pymysql.connect("mysql", "dbuser", "prueba.2019", "crud")
+        cursor = db.cursor()
+        sql = "INSERT INTO students(name, email, phone) VALUES (%s, %s, %s)"
+        cursor.execute(sql, (name, email, phone))
+        db.commit()
+        db.close()
+        return redirect(url_for('Index'))
+
+
+@app.route('/delete/<string:id_data>', methods=['GET'])
+def delete(id_data):
+    flash("Record Has Been Deleted Successfully")
+    db = pymysql.connect("mysql", "dbuser", "prueba.2019", "crud")
+    cursor = db.cursor()
+    sql = "DELETE FROM students WHERE id=%s"
+    cursor.execute(sql, (id_data))
+    db.commit()
+    db.close()
+    return redirect(url_for('Index'))
+
+
+@app.route('/update', methods=['POST', 'GET'])
+def update():
+    if request.method == 'POST':
+        id_data = request.form['id']
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        db = pymysql.connect("mysql", "dbuser", "prueba.2019", "crud")
+        cursor = db.cursor()
+        sql = """
+               UPDATE students
+               SET name=%s, email=%s, phone=%s
+               WHERE id=%s
+              """
+        cursor.execute(sql, (name, email, phone, id_data))
+        db.commit()
+        db.close()
+        flash("Data Updated Successfully")
+        return redirect(url_for('Index'))
 
 
 if __name__ == "__main__":

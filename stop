@@ -1,2 +1,4 @@
 #!/bin/bash
+echo -e "Backing UP DB"
+docker exec mysql /usr/bin/mysqldump -u root --password=prueba.2019 --all-databases > mariaDB/sql/init.sql
 docker-compose stop
