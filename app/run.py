@@ -7,13 +7,7 @@ app.secret_key = "flash message"
 
 @app.route('/')
 def Index():
-    db = pymysql.connect("mysql", "dbuser", "prueba.2019", "crud")
-    cursor = db.cursor()
-    sql = "SELECT * FROM students"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    db.close()
-    return render_template('index.html', students=results)
+    return redirect(url_for('Login'))
 
 
 @app.route('/insert', methods=['POST'])
@@ -29,7 +23,7 @@ def insert():
         cursor.execute(sql, (name, email, phone))
         db.commit()
         db.close()
-        return redirect(url_for('Index'))
+        return redirect(url_for('Layout'))
 
 
 @app.route('/delete/<string:id_data>', methods=['GET'])
@@ -41,7 +35,7 @@ def delete(id_data):
     cursor.execute(sql, (id_data))
     db.commit()
     db.close()
-    return redirect(url_for('Index'))
+    return redirect(url_for('Layout'))
 
 
 @app.route('/update', methods=['POST', 'GET'])
@@ -62,7 +56,25 @@ def update():
         db.commit()
         db.close()
         flash("Data Updated Successfully")
-        return redirect(url_for('Index'))
+        return redirect(url_for('Layout'))
+
+
+@app.route('/login')
+def Login():
+    return(render_template('login.html'))
+
+
+@app.route('/layout')
+def Layout():
+    db = pymysql.connect("mysql", "dbuser", "prueba.2019", "crud")
+    cursor = db.cursor()
+    sql = "SELECT * FROM students"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    db.close()
+    return(render_template('template.html',
+                           user="jcramirez",
+                           students=results))
 
 
 if __name__ == "__main__":
