@@ -3,6 +3,6 @@ Flask-WTF==0.14.2
 Jinja2==2.10
 parse==1.8.2
 urllib3==1.23
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 wheel==0.30.0
 WTForms==2.2.1
